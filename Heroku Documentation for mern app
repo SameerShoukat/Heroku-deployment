@@ -1,0 +1,44 @@
+
+My directory :
+Server/client
+
+
+Client Side:
+1) Create Client/Frontend Directory where you keep all your frontend.
+2) Create build of client side.
+
+Server Side:
+add this code in node app.js to client.
+
+app.use(express.static(path.resolve(__dirname,"./client/build")))
+app.get("*", function (request, response) {
+    response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
+
+Make sure port:
+process.env.PORT || 5000
+
+add Procfile with your requirement :
+like i did =>
+web: node server.js
+
+
+add this code on package.json according to your herarchy:
+"start" : "node server.js",
+"client" : "npm start --prefix client",
+"dev" : "concurrently \"npm start\" \"npm run client\" ",
+"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client npm install && npm run build --prefix client"
+
+all .env var will ad on coonfig var on setting.
+like =>
+PORT,
+URI
+
+.gitignore :
+# dependencies
+/node_modules
+client/node_modules
+
+#production
+/build
+
